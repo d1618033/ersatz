@@ -1,0 +1,2 @@
+# ersatz
+Mock utility library
