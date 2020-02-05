@@ -1,2 +1,2 @@
-# ersatz
+# Ridicule
 Mock utility library
