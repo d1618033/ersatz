@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import call
+from unittest.mock import call, Mock
 import ridicule
 from ridicule.exceptions import InvalidCall
 
@@ -47,6 +47,14 @@ def test_return_value():
     mock_f = ridicule.MockFunction(f)
     mock_f.return_value = 10
     assert mock_f() == 10
+
+
+def test_return_value_when_not_set():
+    def f():
+        pass
+
+    mock_f = ridicule.MockFunction(f)
+    assert isinstance(mock_f(), Mock)
 
 
 def test_side_effect_list():
