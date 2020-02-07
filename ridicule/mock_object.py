@@ -14,8 +14,12 @@ class MockObject(MockBase):
         super().__init__()
 
     def __getattr__(self, item):
-        attr = self.__cache.get(item, _NOTSET)
-        if attr is _NOTSET:
-            attr = self.__cache[item] = MockFunction(getattr(self.__obj, item))
-        return attr
+        mocked_attr = self.__cache.get(item, _NOTSET)
+        if mocked_attr is _NOTSET:
+            attr = getattr(self.__obj, item)
+            if inspect.ismethod(attr):
+                mocked_attr = MockFunction(attr)
+            else:
+                mocked_attr = attr
+        return mocked_attr
 
