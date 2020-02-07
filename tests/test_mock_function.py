@@ -1,6 +1,7 @@
 import pytest
 from unittest.mock import call
 import ridicule
+from ridicule.exceptions import InvalidCall
 
 
 def test_two_args():
@@ -8,15 +9,15 @@ def test_two_args():
         pass
 
     mock_f = ridicule.MockFunction(f)
-    with pytest.raises(AssertionError):
+    with pytest.raises(InvalidCall):
         mock_f()
-    with pytest.raises(AssertionError):
+    with pytest.raises(InvalidCall):
         mock_f(1)
-    with pytest.raises(AssertionError):
+    with pytest.raises(InvalidCall):
         mock_f(1, 2, 3)
-    with pytest.raises(AssertionError):
+    with pytest.raises(InvalidCall):
         mock_f(x=1, z=5)
-    with pytest.raises(AssertionError):
+    with pytest.raises(InvalidCall):
         mock_f(1, x=1)
     mock_f(1, 2)
     mock_f(x=1, y=2)
@@ -29,11 +30,11 @@ def test_kwargs():
         pass
 
     mock_f = ridicule.MockFunction(f)
-    with pytest.raises(AssertionError):
+    with pytest.raises(InvalidCall):
         mock_f(1, 2, 3)
-    with pytest.raises(AssertionError):
+    with pytest.raises(InvalidCall):
         mock_f(x=1, z=5)
-    with pytest.raises(AssertionError):
+    with pytest.raises(InvalidCall):
         mock_f(1, x=1)
     mock_f(1, 2, z=5)
     assert mock_f.call_args_list == [call(1, 2, z=5)]
